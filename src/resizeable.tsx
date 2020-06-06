@@ -39,7 +39,7 @@ const Resizeable: React.FC<ReactResizeable.ParentProps> = ({
 
       const minToMeasure = totalMin ?? totalMinWidths.current;
 
-      if (minToMeasure > window.innerWidth) {
+      if (minToMeasure >= window.innerWidth) {
         parent.current.style.flexWrap = 'wrap';
       } else {
         parent.current.style.flexWrap = '';

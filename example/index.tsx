@@ -38,17 +38,17 @@ const App = () => {
   const child = React.useRef();
 
   return (
-    <Resizeable height="100vh" as="main">
+    <Resizeable height="50px" as="main">
       <Child
         ref={child}
         resize={{
           as: 'article',
           resizeable: true,
-          resizeDir: 'both',
-          width: '33%',
+          resizeDir: 'horizontal',
+          width: '50%',
           minWidth: '300px',
-          minHeight: '400px',
-          height: '400px',
+          // minHeight: '400px',
+          // height: '400px',
         }}
       >
         <Content />
@@ -56,23 +56,23 @@ const App = () => {
       <Child
         resize={{
           as: 'header',
-          resizeable: true,
-          resizeDir: 'horizontal',
-          width: '33%',
-          minWidth: '250px',
-          minHeight: '400px',
+          // resizeable: true,
+          // resizeDir: 'horizontal',
+          width: '50%',
+          minWidth: '300px',
+          // minHeight: '400px',
         }}
       >
         <Content />
       </Child>
-      <Child
+      {/* <Child
         resize={{
           width: '33%',
           minWidth: '400px',
         }}
       >
         <Content />
-      </Child>
+      </Child> */}
     </Resizeable>
   );
 };
