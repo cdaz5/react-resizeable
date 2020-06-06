@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { Parent } from './styles';
 import { debounce } from './debounce';
+import { median } from './median';
 
 const Resizeable: React.FC<ReactResizeable.ParentProps> = ({
   children,
@@ -11,6 +12,7 @@ const Resizeable: React.FC<ReactResizeable.ParentProps> = ({
 }) => {
   const parent = React.useRef<HTMLElement>(null);
   const minWidth = React.useRef(0);
+  const medianRootWidth = React.useRef(0);
   const totalMinWidths = React.useRef(0);
 
   React.useEffect(() => {
@@ -27,6 +29,8 @@ const Resizeable: React.FC<ReactResizeable.ParentProps> = ({
     minWidth.current = Math.min(...widths);
 
     totalMinWidths.current = widths.reduce((acc, val) => val + acc, 0);
+
+    medianRootWidth.current = Math.sqrt(median(widths));
   }, [parent]);
 
   const onResize = React.useCallback(
@@ -68,7 +72,8 @@ const Resizeable: React.FC<ReactResizeable.ParentProps> = ({
           const newTotalMin =
             totalMinWidths.current -
             minWidth.current +
-            mutation.target.offsetWidth;
+            mutation.target.offsetWidth +
+            medianRootWidth.current;
 
           if (newTotalMin > window.innerWidth) {
             onResize({
