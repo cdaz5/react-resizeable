@@ -30,7 +30,7 @@ const Resizeable: React.FC<ReactResizeable.ParentProps> = ({
 
     totalMinWidths.current = widths.reduce((acc, val) => val + acc, 0);
 
-    medianRootWidth.current = Math.sqrt(median(widths));
+    medianRootWidth.current = Math.ceil(Math.sqrt(median(widths)));
   }, [parent]);
 
   const onResize = React.useCallback(
@@ -75,7 +75,7 @@ const Resizeable: React.FC<ReactResizeable.ParentProps> = ({
             mutation.target.offsetWidth +
             medianRootWidth.current;
 
-          if (newTotalMin > window.innerWidth) {
+          if (newTotalMin >= window.innerWidth) {
             onResize({
               totalMin: newTotalMin,
             });
