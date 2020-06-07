@@ -42,10 +42,13 @@ const App = () => {
       <Resizeable height="300px" as="main">
         <Child
           ref={child}
+          style={{
+            border: '1px solid red',
+          }}
           resize={{
             as: 'article',
             resizeable: true,
-            resizeDir: 'vertical',
+            resizeDir: 'both',
             width: '50%',
             minWidth: '300px',
             height: '300px',
@@ -57,7 +60,7 @@ const App = () => {
           resize={{
             as: 'header',
             width: '50%',
-            minWidth: '300px',
+            minWidth: '500px',
             height: '300px',
           }}
         >

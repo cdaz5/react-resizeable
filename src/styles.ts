@@ -28,7 +28,6 @@ const resizeStyles = ({
 };
 
 export const StyledChild = styled.div<ReactResizeable.ChildProps['resize']>`
-  border: 1px solid red;
   min-height: ${({ minHeight }) => minHeight ?? 'auto'};
   height: ${({ height }) => height ?? '100%'};
   overflow: scroll;
