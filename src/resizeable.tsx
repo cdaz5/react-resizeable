@@ -11,7 +11,6 @@ const Resizeable: React.FC<ReactResizeable.ResizeableProps> = ({
   flexDirection = 'row',
   height = '100%',
 }) => {
-  console.log({ flexDirection });
   const [resizeId] = React.useState(generateRandomString());
   const parent = React.useRef<HTMLElement>(null);
   const minWidth = React.useRef(0);

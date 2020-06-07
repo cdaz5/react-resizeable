@@ -1,10 +1,10 @@
 # react-resizeable
 
-Check out the [demo](UPDATE_ME).
+Check out the [demo](https://codesandbox.io/s/react-resizeable-examples-vsdcj?file=/src/app.js).
 
 A react library that allows you to place custom resizeable grid components throughout your codebase.
 
-`react-resizeable` exports two components, `Resizeable`, the parent container and, `Child`, the wrapper for any children. See [demo](UPDATE_ME) for examples.
+`react-resizeable` exports two components, `Resizeable`, the parent container and, `Child`, the wrapper for any children. See [demo](https://codesandbox.io/s/react-resizeable-examples-vsdcj?file=/src/app.js) for examples.
 
 ## Features
 
@@ -28,7 +28,7 @@ $ npm i react-resizeable
 
 ## Example
 
-**_NOTE:_** most arguments are provided defaults (see [Full API](#full-api) below) with the only required one being `width` on the `<Child>` component, however it is strongly recommended to include `minWidth` as well. (see [demo](UPDATE_ME) for additional examples).
+**_NOTE:_** most arguments are provided defaults (see [Full API](#full-api) below) with the only required one being `width` on the `<Child>` component, however it is strongly recommended to include `minWidth` as well. (see [demo](https://codesandbox.io/s/react-resizeable-examples-vsdcj?file=/src/app.js) for additional examples).
 
 ```js
 import React from 'react';
