@@ -38,42 +38,73 @@ const App = () => {
   const child = React.useRef();
 
   return (
-    <Resizeable height="50px" as="main">
-      <Child
-        ref={child}
-        resize={{
-          as: 'article',
-          resizeable: true,
-          resizeDir: 'horizontal',
-          width: '50%',
-          minWidth: '300px',
-          // minHeight: '400px',
-          // height: '400px',
-        }}
-      >
-        <Content />
-      </Child>
-      <Child
-        resize={{
-          as: 'header',
-          // resizeable: true,
-          // resizeDir: 'horizontal',
-          width: '50%',
-          minWidth: '300px',
-          // minHeight: '400px',
-        }}
-      >
-        <Content />
-      </Child>
-      {/* <Child
-        resize={{
-          width: '33%',
-          minWidth: '400px',
-        }}
-      >
-        <Content />
-      </Child> */}
-    </Resizeable>
+    <>
+      <Resizeable height="300px" as="main">
+        <Child
+          ref={child}
+          resize={{
+            as: 'article',
+            resizeable: true,
+            resizeDir: 'vertical',
+            width: '50%',
+            minWidth: '300px',
+            height: '300px',
+          }}
+        >
+          <Content />
+        </Child>
+        <Child
+          resize={{
+            as: 'header',
+            width: '50%',
+            minWidth: '300px',
+            height: '300px',
+          }}
+        >
+          <Content />
+        </Child>
+      </Resizeable>
+      <hr />
+
+      <Resizeable height="450px" as="main">
+        <Child
+          ref={child}
+          resize={{
+            as: 'article',
+            resizeable: true,
+            resizeDir: 'both',
+            width: '33%',
+            minWidth: '150px',
+            height: '100px',
+          }}
+        >
+          <Content />
+        </Child>
+        <Child
+          ref={child}
+          resize={{
+            as: 'article',
+            resizeable: true,
+            resizeDir: 'both',
+            width: '33%',
+            minWidth: '200px',
+            height: '100px',
+          }}
+        >
+          <Content />
+        </Child>
+        <Child
+          resize={{
+            as: 'header',
+            width: '33%',
+            minWidth: '250px',
+            height: '100px',
+          }}
+        >
+          <Content />
+        </Child>
+      </Resizeable>
+    </>
   );
 };
 

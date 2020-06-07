@@ -25,7 +25,7 @@ declare namespace ReactResizeable {
     };
   }
 
-  interface ParentProps {
+  interface ResizeableProps {
     flexDirection?: 'row' | 'column';
     height?: string;
     as?: As;

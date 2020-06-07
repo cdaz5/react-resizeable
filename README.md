@@ -70,7 +70,7 @@ export default SomeComponent;
 ### Props:
 
 ```js
-interface ParentProps {
+interface ResizeableProps {
   flexDirection?: 'row' | 'column';
   height?: string;
   as?: keyof JSX.IntrinsicElements;

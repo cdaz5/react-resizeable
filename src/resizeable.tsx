@@ -3,34 +3,58 @@ import * as React from 'react';
 import { Parent } from './styles';
 import { debounce } from './debounce';
 import { median } from './median';
+import { generateRandomString } from './random-string';
 
-const Resizeable: React.FC<ReactResizeable.ParentProps> = ({
+const Resizeable: React.FC<ReactResizeable.ResizeableProps> = ({
   children,
   as = 'div',
   flexDirection = 'row',
   height = '100%',
 }) => {
+  console.log({ flexDirection });
+  const [resizeId] = React.useState(generateRandomString());
   const parent = React.useRef<HTMLElement>(null);
   const minWidth = React.useRef(0);
   const medianRootWidth = React.useRef(0);
   const totalMinWidths = React.useRef(0);
+  const resizeWidthDiff = React.useRef(0);
 
   React.useEffect(() => {
     if (!parent.current) return;
 
-    const widths = Array.from(parent.current.children).map(c =>
-      Number(
+    let widths: number[] = [];
+    let totalByResize = { resizeTotalWidths: 0, nonResizeTotalWidths: 0 };
+
+    Array.from(parent.current.children).map(c => {
+      const width = Number(
         getComputedStyle(c)
           .getPropertyValue('min-width')
           .replace('px', '')
-      )
-    );
+      );
+      widths = [...widths, width];
+
+      if (getComputedStyle(c).getPropertyValue('resize') === 'none') {
+        totalByResize = {
+          ...totalByResize,
+          nonResizeTotalWidths: totalByResize.nonResizeTotalWidths + width,
+        };
+      } else {
+        totalByResize = {
+          ...totalByResize,
+          resizeTotalWidths: totalByResize.resizeTotalWidths + width,
+        };
+      }
+    });
 
     minWidth.current = Math.min(...widths);
 
     totalMinWidths.current = widths.reduce((acc, val) => val + acc, 0);
 
     medianRootWidth.current = Math.ceil(Math.sqrt(median(widths)));
+
+    resizeWidthDiff.current = Math.abs(
+      totalByResize.resizeTotalWidths - totalByResize.nonResizeTotalWidths
+    );
   }, [parent]);
 
   const onResize = React.useCallback(
@@ -41,19 +65,25 @@ const Resizeable: React.FC<ReactResizeable.ParentProps> = ({
 
       if (minToMeasure >= window.innerWidth) {
         parent.current.style.flexWrap = 'wrap';
+        parent.current.style.height = 'auto';
       } else {
         parent.current.style.flexWrap = '';
+        parent.current.style.height = height;
       }
     },
     [parent, totalMinWidths.current]
   );
 
   React.useEffect(() => {
-    const resizeableChildren = React.Children.map(children, (child, idx) => {
+    // setup MutationObserver
+    const resizeableChildren:
+      | HTMLElement[]
+      | undefined
+      | {}[] = React.Children.map(children, (child, idx) => {
       if (!React.isValidElement(child)) return child;
 
       return child.props?.resize?.resizeable
-        ? document.getElementById(`resizeable-${idx}`)
+        ? document.getElementById(`resizeable-${resizeId}-${idx}`)
         : null;
     })?.filter(child => Boolean(child));
 
@@ -73,7 +103,8 @@ const Resizeable: React.FC<ReactResizeable.ParentProps> = ({
             totalMinWidths.current -
             minWidth.current +
             mutation.target.offsetWidth +
-            medianRootWidth.current;
+            medianRootWidth.current +
+            resizeWidthDiff.current;
 
           if (newTotalMin >= window.innerWidth) {
             onResize({
@@ -83,15 +114,18 @@ const Resizeable: React.FC<ReactResizeable.ParentProps> = ({
         }
       }
     };
+
     const observer = new MutationObserver(callback);
 
-    resizeableChildren?.forEach((el: any) => {
-      observer.observe(el, config);
+    resizeableChildren?.forEach(el => {
+      if (el instanceof HTMLElement) {
+        observer.observe(el, config);
+      }
     });
     return () => {
       observer.disconnect();
     };
-  });
+  }, []);
 
   React.useEffect(() => {
     // on initial mount ensure proper flex layout
@@ -115,7 +149,7 @@ const Resizeable: React.FC<ReactResizeable.ParentProps> = ({
 
         return React.cloneElement(child, {
           ...child.props,
-          id: `resizeable-${idx}`,
+          id: `resizeable-${resizeId}-${idx}`,
         });
       })}
     </Parent>
