@@ -93,25 +93,30 @@ const Resizeable: React.FC<ReactResizeable.ResizeableProps> = ({
     };
 
     const callback: MutationCallback = mutationsList => {
-      // Use traditional 'for loops' for IE 11
-      for (let mutation of mutationsList) {
-        if (mutation.type !== 'attributes') return;
+      window.requestAnimationFrame(() => {
+        if (!Array.isArray(mutationsList) || !mutationsList.length) {
+          return;
+        }
+        // Use traditional 'for loops' for IE 11
+        for (let mutation of mutationsList) {
+          if (mutation.type !== 'attributes') return;
 
-        if (mutation.target instanceof HTMLElement) {
-          const newTotalMin =
-            totalMinWidths.current -
-            minWidth.current +
-            mutation.target.offsetWidth +
-            medianRootWidth.current +
-            resizeWidthDiff.current;
+          if (mutation.target instanceof HTMLElement) {
+            const newTotalMin =
+              totalMinWidths.current -
+              minWidth.current +
+              mutation.target.offsetWidth +
+              medianRootWidth.current +
+              resizeWidthDiff.current;
 
-          if (newTotalMin >= window.innerWidth) {
-            onResize({
-              totalMin: newTotalMin,
-            });
+            if (newTotalMin >= window.innerWidth) {
+              onResize({
+                totalMin: newTotalMin,
+              });
+            }
           }
         }
-      }
+      });
     };
 
     const observer = new MutationObserver(callback);

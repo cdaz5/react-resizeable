@@ -39,7 +39,7 @@ const App = () => {
 
   return (
     <>
-      <Resizeable height="300px" as="main">
+      <Resizeable as="main">
         <Child
           ref={child}
           style={{
@@ -51,17 +51,18 @@ const App = () => {
             resizeDir: 'both',
             width: '50%',
             minWidth: '300px',
-            height: '300px',
           }}
         >
           <Content />
         </Child>
         <Child
+          style={{
+            border: '1px solid red',
+          }}
           resize={{
             as: 'header',
             width: '50%',
             minWidth: '500px',
-            height: '300px',
           }}
         >
           <Content />
@@ -69,7 +70,7 @@ const App = () => {
       </Resizeable>
       <hr />
 
-      <Resizeable height="450px" as="main">
+      <Resizeable as="main">
         <Child
           ref={child}
           resize={{
